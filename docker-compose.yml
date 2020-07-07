@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+
+  mariadb:
+    image: mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - "./database.sql:/docker-entrypoint-initdb.d/database.sql:ro"
+      - 'db:/var/lib/mysql'
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_DATABASE: "mydb"
+      MYSQL_USER: "myuser"
+      MYSQL_PASSWORD: "mypasswd"
+
+  php:
+    image: etable/php7.0.8
+    volumes:
+      - './sendorder:/var/www/html'
+    links:
+      - mariadb
+    environment:
+      DB_HOST: 'mariadb'
+      DB_USER: 'myuser'
+      DB_PASSWORD: 'mypasswd'
+      DB_NAME: 'mydb'
+
+  nginx:
+    image: nginx
+    ports:
+      - 8980:8980
+    links:
+      - "php:php"
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf:ro'
+      - './sendorder:/var/www/html'
+
+volumes:
+  db:
