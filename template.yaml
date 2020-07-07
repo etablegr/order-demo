@@ -1,26 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: "On connect and on disconnect handler"
-Parameters:
-  DB_HOSTName:
-    Type: String
-    Default: '0.0.0.0:3306'
-    Description: Database host
-  
-  DB_USERName:
-    Type: String
-    default:  myuser
-    Description: Database User
-
-  DB_PASSWORDName:
-    Type: String
-    default: mypasswd
-    Description: Database Password
-
-  DB_NAME:
-    Type: String
-    default: mydb
-    Description: Database
 
 Resources:
   # Websocket API
@@ -53,7 +33,7 @@ Resources:
       IntegrationUri: 
         Fn::Sub:
             arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${OnConnectFunction.Arn}/invocations
-  
+
   # On Disconnect lambda
   DisconnectRoute:
     Type: AWS::ApiGatewayV2::Route
@@ -93,20 +73,20 @@ Resources:
       DeploymentId: !Ref Deployment
       ApiId: !Ref OrderWebsocket
 
-  # Where onconnect function is located into our source code
+  # Where on_connect function is located into our source code
   OnConnectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: onconnect/
-      Handler: app.handler
+      CodeUri: on_connect/
+      Handler: index.handler
       MemorySize: 256
       Runtime: nodejs12.x
       Environment:
         Variables:
-          TABLE_NAME: !Ref TableName
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref TableName
+          - DB_HOST
+          - DB_USER
+          - DB_PASSWORD
+          - DB_NAME
   
   OnConnectPermission:
     Type: AWS::Lambda::Permission
@@ -117,21 +97,22 @@ Resources:
       FunctionName: !Ref OnConnectFunction
       Principal: apigateway.amazonaws.com
 
-  # Where ondisconnect function is located into our source code
+  # Where on_disconnect function is located into our source code
   OnDisconnectFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ondisconnect/
-      Handler: app.handler
+      CodeUri: on_disconnect/
+      Handler: index.handler
       MemorySize: 256
       Runtime: nodejs12.x
       Environment:
         Variables:
-          TABLE_NAME: !Ref TableName
-      Policies:
-      - DynamoDBCrudPolicy:
-          TableName: !Ref TableName
-          
+          - DB_HOST
+          - DB_USER
+          - DB_PASSWORD
+          - DB_NAME
+  
+      
   OnDisconnectPermission:
     Type: AWS::Lambda::Permission
     DependsOn:

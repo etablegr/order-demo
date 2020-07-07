@@ -2,9 +2,9 @@ const mysql = require('mysql');
 
 const dbconnection = mysql.createConnection({
     host: process.env.DB_HOST,
-    user: prossess.env.DB_USER,
-    password: prossess.env.DB_PASSWORD,
-    database: prossess.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
 });
 
 exports.handler = async event => {
@@ -14,15 +14,15 @@ exports.handler = async event => {
 
     let sql = "INSERT INTO websocket_connections (connection_id) VALUES (?)";
 
-    connection.connect();
+    dbconnection.connect();
     try{
-       await connection.query(sql, [connection_id]);
+       await dbconnection.query(sql, [connection_id]);
     } catch (err) {
         console.log('Failed to store into database', err.toString());
-        return {statusCode: 500, body: 'Failed To Connect';}
+        return {statusCode: 500, body: 'Failed To Connect'}
     }
 
-    connection.end();
+    dbconnection.end();
 
     return { statusCode: 200, body: 'Connected.' };
 }

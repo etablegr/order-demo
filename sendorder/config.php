@@ -6,7 +6,7 @@ return [
     'aws'=>[
         'region'            => 'eu-central-1',
         'apiVersion'        => '2018-11-29',
-        'endpoint'          => 'https://u0srnoatl8.execute-api.eu-central-2.amazonaws.com',
+        'endpoint'          => 'https://535j71sx0h.execute-api.eu-central-1.amazonaws.com',
         'credentials'       => new Aws\Credentials\Credentials(getenv('AWS_KEY'), getenv('AWS_SECRET'))
     ],
     'database'=>[
