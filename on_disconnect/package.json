@@ -2,14 +2,13 @@
   "name": "on_disconnect",
   "version": "1.0.0",
   "description": "AWS Lambda for removing the connection_id of api webwsocket gateway",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mysql": "github:mysqljs/mysql",
-    "sam": "0.0.7"
+    "mysql2": "^2.1.0"
   }
 }
