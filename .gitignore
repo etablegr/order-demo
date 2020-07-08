@@ -3,3 +3,4 @@ vendor
 env.json
 deploy.yml
 *.zip
+.env

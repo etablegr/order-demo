@@ -10,7 +10,6 @@ $item     =  $_POST['order_item'];
 $quantity =  $_POST['quantity'];
 
 // Replace with host
-
 $dsn = "mysql:host={$config['database']['host']};dbname={$config['database']['name']}";
 
 $options = [
@@ -25,19 +24,22 @@ try {
      throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-// $options = [
-//     'region'            => 'eu-central-1',
-//     'apiVersion'        => '2018-11-29',
-//     'endpoint'          => '',
-//     'credentials'       => new Aws\Credentials\Credentials('key', 'secret');
-// ];
-
-
-// $apiGateway= new ApiGatewayManagementApiClient($options);
+$apiGateway = new ApiGatewayManagementApiClient($config['aws']);
 
 $stmt = $pdo->query("SELECT connection_id FROM websocket_connections");
 
 while ($row = $stmt->fetch()) {
     $connection_id = $row['connection_id'];
-    var_dump($connection_id);
+    echo "Sending to ${connection_id}".PHP_EOL;
+    try {
+        $apiGateway->postToConnection([
+            'ConnectionId' => $connection_id,
+            'Data' => "$quantity X $item"
+        ]);
+    } catch (Exception $e) {
+       echo "Error: ${connection_id}".PHP_EOL;
+       error_log($e->getMessage());
+       $stmt = $pdo->prepare('DELETE FROM websocket_connections where connection_id = ?');
+       $stmt->execute([$connection_id]);
+    }
 }

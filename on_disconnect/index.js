@@ -19,7 +19,7 @@ exports.handler = async event => {
         await dbconnection.execute(sql, [connection_id]);
     } catch(err) {
         // console.log output is written into cloudwatch logs.
-        console.log('Failed to store into database', err.toString());
+        console.log('Failed to remove from database', err.toString());
         response = { statusCode: 500, body: 'Failed To Connect' };
     } finally {
         dbconnection.end();
