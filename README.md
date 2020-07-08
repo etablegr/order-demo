@@ -26,6 +26,12 @@ In order for the demo to work you will need:
 6. Run `composer install`.
 7. Run `docker-compose up -d`.
 
+In order to notify the clients for a new order run:
+
+```
+curl -X POST -d "order_item=Ταχινόπιτα&quantity=4" http://0.0.0.0:8980
+```
+
 ## Deploying lambdas:
 
 In order to deploy the lambdas run the following steps:
@@ -42,3 +48,9 @@ ENVIRONMENTAL VARIABLE | DESCRIPTION
 `DB_USER`     | Database User
 `DB_PASSWORD` | Database Password
 `DB_NAME`     | Database name
+
+## Running the client
+
+1. On `client/websocket.js` replace with the correct websocket url.
+2. If not, run `docker-compose up -d`.
+3. Visit: `http://0.0.0.0:8981`.
