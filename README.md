@@ -42,4 +42,3 @@ ENVIRONMENTAL VARIABLE | DESCRIPTION
 `DB_USER`     | Database User
 `DB_PASSWORD` | Database Password
 `DB_NAME`     | Database name
-
