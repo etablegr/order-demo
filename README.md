@@ -5,8 +5,8 @@ A simple websocket demonstration using Websocket AWS Api Gateway.
 
 The project is consisted by theese parts:
 
-* `on_connect`: Lambda that stores the connection id into a mnyswl table websocket_connections. It is executed once a client connect into the api gateway.
-* `on_disconnect`: Lambda that removes the connection id into a mnyswl table websocket_connections. It is executed once a client disconnect into the api gateway. Keep in mind it may not be executed always as documentation says.
+* `on_connect`: Lambda that stores the connection id into a mysql/mariadb table `websocket_connections`. It is executed once a client connect into the api gateway.
+* `on_disconnect`: Lambda that removes the connection id into a mysql/mariadb table `websocket_connections`. It is executed once a client disconnect into the api gateway. Keep in mind it may not be executed always as documentation says.
 * `client`: A web client that listends on websocket's sent messages.
 * `sendorder`: An endpoint using php that notifies the clients for a new order.
 
@@ -19,7 +19,7 @@ In order for the demo to work you will need:
 ## Running `sendorder`
 
 1. Make and deploy an Database instance, then initialize the `websocket_connections` table using `database.sql`.
-2. Deploy lambdas as senn above.
+2. Deploy lambdas as seen bellow.
 3. Initialize a websocket api.
 4. Copy `.env.dist` into `.env`.
 5. Fill `.env` with the appropriate values.
@@ -48,6 +48,9 @@ ENVIRONMENTAL VARIABLE | DESCRIPTION
 `DB_USER`     | Database User
 `DB_PASSWORD` | Database Password
 `DB_NAME`     | Database name
+
+5. Set `on_connect` lambda into `$onconnect` api endpoint.
+6. Set `on_disconnec6` lambda into `$ondisconnect` api endpoint.
 
 ## Running the client
 
