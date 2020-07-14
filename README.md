@@ -50,7 +50,7 @@ ENVIRONMENTAL VARIABLE | DESCRIPTION
 `DB_NAME`     | Database name
 
 5. Set `on_connect` lambda into `$onconnect` api endpoint.
-6. Set `on_disconnec6` lambda into `$ondisconnect` api endpoint.
+6. Set `on_disconnect` lambda into `$ondisconnect` api endpoint.
 
 ## Running the client
 
